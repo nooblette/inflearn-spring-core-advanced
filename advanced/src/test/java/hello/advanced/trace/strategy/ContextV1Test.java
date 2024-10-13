@@ -3,6 +3,7 @@ package hello.advanced.trace.strategy;
 import org.junit.jupiter.api.Test;
 
 import hello.advanced.trace.strategy.code.strategy.ContextV1;
+import hello.advanced.trace.strategy.code.strategy.Strategy;
 import hello.advanced.trace.strategy.code.strategy.StrategyLogic1;
 import hello.advanced.trace.strategy.code.strategy.StrategyLogic2;
 import lombok.extern.slf4j.Slf4j;
@@ -54,4 +55,63 @@ public class ContextV1Test {
 		contextV2.execute();
 	}
 
+	/**
+	 * 전략 패턴에 익명 내부 클래스 적용
+	 */
+	@Test
+	void strategyV2() {
+		Strategy strategyLogic1 = new Strategy() {
+			@Override
+			public void call() {
+				log.info("비즈니스 로직1 실행"); // 변하는 부분
+			}
+		};
+		ContextV1 contextV1 = new ContextV1(strategyLogic1);
+		log.info("strategyLogic1={}", strategyLogic1.getClass());
+		contextV1.execute();
+
+		Strategy strategyLogic2 = new Strategy() {
+			@Override
+			public void call() {
+				log.info("비즈니스 로직2 실행"); // 변하는 부분
+			}
+		};
+		ContextV1 contextV2 = new ContextV1(strategyLogic2);
+		log.info("strategyLogic2={}", strategyLogic2.getClass());
+		contextV2.execute();
+	}
+
+	/**
+	 * 전략 패턴에 익명 내부 클래스 적용 - 변수 선언 없이 바로 전략 인터페이스의 구현체 주입
+	 */
+	@Test
+	void strategyV3() {
+		ContextV1 contextV1 = new ContextV1(new Strategy() {
+			@Override
+			public void call() {
+				log.info("비즈니스 로직1 실행"); // 변하는 부분
+			}
+		});
+		contextV1.execute();
+
+		ContextV1 contextV2 = new ContextV1(new Strategy() {
+			@Override
+			public void call() {
+				log.info("비즈니스 로직2 실행"); // 변하는 부분
+			}
+		});
+		contextV2.execute();
+	}
+
+	/**
+	 * 익명 내부 클래스와 람다 적용
+	 */
+	@Test
+	void strategyV4() {
+		ContextV1 contextV1 = new ContextV1(() -> log.info("비즈니스 로직1 실행"));
+		contextV1.execute();
+
+		ContextV1 contextV2 = new ContextV1(() -> log.info("비즈니스 로직2 실행"));
+		contextV2.execute();
+	}
 }

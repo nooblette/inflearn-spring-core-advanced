@@ -3,7 +3,7 @@ package hello.advanced.trace.strategy.code.strategy;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 필드에 전략을 보관하는 방식, 변하지 않는 부분을 담당한다.
+ * 필드에 전략을 보관하는 방식, 문맥(Context)는 변하지 않는 부분을 담당한다.
  */
 @Slf4j
 public class ContextV1 {
