@@ -3,12 +3,12 @@ package hello.advanced.trace.threadlocal;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import hello.advanced.trace.threadlocal.code.FieldService;
+import hello.advanced.trace.threadlocal.code.ThreadLocalService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class FieldServiceTest {
-	private FieldService fieldService = new FieldService();
+public class ThreadLocalServiceTest {
+	private ThreadLocalService service = new ThreadLocalService();
 
 	@Test
 	void field() {
@@ -16,12 +16,12 @@ public class FieldServiceTest {
 
 		// fieldService 클래스의 logic() 메서드를 호출하는 작업 정의
 		Runnable userA = () -> {
-			fieldService.logic("userA");
+			service.logic("userA");
 		};
 
 		// fieldService 클래스의 logic() 메서드를 호출하는 작업 하나 더 정의
 		Runnable userB = () -> {
-			fieldService.logic("userB");
+			service.logic("userB");
 		};
 
 		// 위 두 작업(userA, userB)을 수행하는 쓰레드 생성
