@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import hello.advanced.trace.logtrace.FieldLogTrace;
 import hello.advanced.trace.logtrace.LogTrace;
+import hello.advanced.trace.logtrace.ThreadLocalLogTrace;
 
 // @Configuration :
 // 	- 해당 클래스가 스프링 설정 클래스임을 나타내며, 스프링 빈을 정의하고 등록하는 역할을 한다.
@@ -17,6 +18,7 @@ public class LogTraceConfig {
 	@Bean
 	public LogTrace logTrace() {
 		// 싱글톤으로 스프링 빈으로 등록
-		return new FieldLogTrace();
+		// 동시성 문제가 있는 FieldLogTrace 대신에 문제를 해결한 ThreadLocalLogTrace 클래스를 스프링 빈으로 등록한다.
+		return new ThreadLocalLogTrace();
 	}
 }
