@@ -7,12 +7,14 @@ import org.springframework.context.annotation.Import;
 
 import hello.proxy.config.AppV1Config;
 import hello.proxy.config.AppV2Config;
+import hello.proxy.config.ConcreteProxyConfig;
 import hello.proxy.config.InterfaceProxyConfig;
 import hello.proxy.trace.logtrace.LogTrace;
 import hello.proxy.trace.logtrace.ThreadLocalLogTrace;
 
 // @Import({AppV1Config.class, AppV2Config.class})
-@Import(InterfaceProxyConfig.class)
+// @Import(InterfaceProxyConfig.class)
+@Import(ConcreteProxyConfig.class)
 @SpringBootApplication(scanBasePackages = "hello.proxy.app.v3") //주의
 public class ProxyApplication {
 
