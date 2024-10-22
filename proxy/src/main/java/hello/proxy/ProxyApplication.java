@@ -5,15 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 
-import hello.proxy.config.AppV1Config;
-import hello.proxy.config.AppV2Config;
-import hello.proxy.config.BeanPostProcessorConfig;
-import hello.proxy.config.ConcreteProxyConfig;
-import hello.proxy.config.DynamicProxyBasicConfig;
-import hello.proxy.config.DynamicProxyFilterConfig;
-import hello.proxy.config.InterfaceProxyConfig;
-import hello.proxy.config.ProxyFactoryConfigV1;
-import hello.proxy.config.ProxyFactoryConfigV2;
 import hello.proxy.config.v5_autoproxy.AutoProxyConfig;
 import hello.proxy.trace.logtrace.LogTrace;
 import hello.proxy.trace.logtrace.ThreadLocalLogTrace;

@@ -1,4 +1,4 @@
-package hello.proxy.config;
+package hello.proxy.config.v3_proxyfactory;
 
 import org.springframework.aop.Advisor;
 import org.springframework.aop.framework.ProxyFactory;
@@ -13,16 +13,13 @@ import hello.proxy.app.v1.OrderRepositoryV1;
 import hello.proxy.app.v1.OrderRepositoryV1Impl;
 import hello.proxy.app.v1.OrderServiceV1;
 import hello.proxy.app.v1.OrderServiceV1Impl;
-import hello.proxy.app.v2.OrderControllerV2;
-import hello.proxy.app.v2.OrderRepositoryV2;
-import hello.proxy.app.v2.OrderServiceV2;
 import hello.proxy.config.v3_proxyfactory.advice.LogTraceAdvice;
 import hello.proxy.trace.logtrace.LogTrace;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Configuration
-public class ProxyFactoryConfigV2 {
+public class ProxyFactoryConfigV1 {
 	/**
 	 * 1. 포인트컷과 어드바이스(LogTraceAdvice)를 사용하여 어드바이저(Advisor)를 구현한다.
 	 * 2. 프록시 팩토리(ProxyFactory)를 통해 구현한 어드바이저(Advisor)를 사용하는 동적 프록시를 생성한다.
@@ -30,50 +27,47 @@ public class ProxyFactoryConfigV2 {
 	 */
 
 	@Bean
-	public OrderControllerV2 orderControllerV2(LogTrace logTrace) {
-		// 타깃 클래스 생성
-		OrderControllerV2 orderController = new OrderControllerV2(orderServiceV2(logTrace));
+	public OrderControllerV1 orderControllerV1(LogTrace logTrace) {
+		// 타깃 클래스 생성 - orderControllerV1 orderServiceV1 프록시에 의존한다.
+		OrderControllerV1 orderControllerV1 = new OrderControllerV1Impl(orderServiceV1(logTrace));
 
 		// 프록시 팩토리(ProxyFactory)를 통해 프록시 생성
-		ProxyFactory proxyFactory = new ProxyFactory(orderController);
+		ProxyFactory proxyFactory = new ProxyFactory(orderControllerV1);
 		proxyFactory.addAdvisor(getAdvisor(logTrace)); // 어드바이저 한개 적용(한개의 프록시에 n개의 어드바이저를 설정한다.)
 
 		// 생성된 동적 프록시를 빈으로 등록
-		OrderControllerV2 proxy = (OrderControllerV2) proxyFactory.getProxy();
-		log.info("proxyFactory proxy={}", proxy.getClass());
-		log.info("proxyFactory target{}", orderController.getClass());
+		OrderControllerV1 proxy = (OrderControllerV1) proxyFactory.getProxy();
+		log.info("proxyFactory proxy={}, target{}", proxy.getClass(), orderControllerV1.getClass());
 		return proxy;
 	}
 	
 	@Bean
-	public OrderServiceV2 orderServiceV2(LogTrace logTrace) {
-		// 타깃 클래스 생성
-		OrderServiceV2 orderService = new OrderServiceV2(orderRepositoryV2(logTrace));
+	public OrderServiceV1 orderServiceV1(LogTrace logTrace) {
+		// 타깃 클래스 생성 - orderServiceV1는 orderRepositoryV1 프록시에 의존한다.
+		OrderServiceV1 orderServiceV1 = new OrderServiceV1Impl(orderRepositoryV1(logTrace));
 
 		// 프록시 팩토리(ProxyFactory)를 통해 프록시 생성
-		ProxyFactory proxyFactory = new ProxyFactory(orderService);
+		ProxyFactory proxyFactory = new ProxyFactory(orderServiceV1);
 		proxyFactory.addAdvisor(getAdvisor(logTrace)); // 어드바이저 한개 적용(한개의 프록시에 n개의 어드바이저를 설정한다.)
 
 		// 생성된 동적 프록시를 빈으로 등록
-		OrderServiceV2 proxy = (OrderServiceV2) proxyFactory.getProxy();
-		log.info("proxyFactory proxy={}", proxy.getClass());
-		log.info("proxyFactory target{}", orderService.getClass());
+		OrderServiceV1 proxy = (OrderServiceV1) proxyFactory.getProxy();
+		log.info("proxyFactory proxy={}, target{}", proxy.getClass(), orderServiceV1.getClass());
 		return proxy;
 	}
 
 	@Bean
-	public OrderRepositoryV2 orderRepositoryV2(LogTrace logTrace) {
+	public OrderRepositoryV1 orderRepositoryV1(LogTrace logTrace) {
 		// 타깃 클래스 생성
-		OrderRepositoryV2 orderRepository = new OrderRepositoryV2();
+		OrderRepositoryV1 orderRepository = new OrderRepositoryV1Impl();
 
 		// 프록시 팩토리(ProxyFactory)를 통해 프록시 생성
 		ProxyFactory proxyFactory = new ProxyFactory(orderRepository);
 		proxyFactory.addAdvisor(getAdvisor(logTrace)); // 어드바이저 한개 적용(한개의 프록시에 n개의 어드바이저를 설정한다.)
 
 		// 생성된 동적 프록시를 빈으로 등록
-		OrderRepositoryV2 proxy = (OrderRepositoryV2) proxyFactory.getProxy();
-		log.info("proxyFactory proxy={}", proxy.getClass());
-		log.info("proxyFactory target{}", orderRepository.getClass());
+		OrderRepositoryV1 proxy = (OrderRepositoryV1) proxyFactory.getProxy();
+		log.info("proxyFactory proxy={}, target{}", proxy.getClass(), orderRepository.getClass());
 		return proxy;
 	}
 

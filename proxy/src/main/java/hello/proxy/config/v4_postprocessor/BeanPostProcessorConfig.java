@@ -1,4 +1,4 @@
-package hello.proxy.config;
+package hello.proxy.config.v4_postprocessor;
 
 import org.springframework.aop.Advisor;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+import hello.proxy.config.AppV1Config;
+import hello.proxy.config.AppV2Config;
 import hello.proxy.config.v3_proxyfactory.advice.LogTraceAdvice;
 import hello.proxy.config.v4_postprocessor.postprocessor.PackageLogTracePostProcessor;
 import hello.proxy.trace.logtrace.LogTrace;
