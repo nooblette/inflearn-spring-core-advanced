@@ -9,12 +9,13 @@ import org.springframework.context.annotation.Import;
 
 import hello.aop.order.OrderRepository;
 import hello.aop.order.OrderService;
-import hello.aop.order.aop.AspectV1;
+import hello.aop.order.aop.AspectV2;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SpringBootTest
-@Import(AspectV1.class) // AspectV1을 스프링 빈으로 등록한다.
+// @Import(AspectV1.class) // AspectV1을 스프링 빈으로 등록한다.
+@Import(AspectV2.class) // AspectV2을 스프링 빈으로 등록한다.
 public class AopTest {
 	@Autowired
 	OrderService orderService;
