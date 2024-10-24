@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
 
 import hello.aop.order.OrderRepository;
 import hello.aop.order.OrderService;
-import hello.aop.order.aop.AspectV4Pointcut;
+import hello.aop.order.aop.AspectV5Order;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -17,7 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 // @Import(AspectV1.class) // AspectV1을 스프링 빈으로 등록한다.
 // @Import(AspectV2.class) // AspectV2을 스프링 빈으로 등록한다.
 // @Import(AspectV3.class) // AspectV3을 스프링 빈으로 등록한다.
-@Import(AspectV4Pointcut.class) // AspectV4Pointcut을 스프링 빈으로 등록한다.
+// @Import(AspectV4Pointcut.class) // AspectV4Pointcut을 스프링 빈으로 등록한다.
+@Import({AspectV5Order.LogAspect.class, AspectV5Order.TransactionAspect.class}) // 2개의 Aspect를 각각 스프링 빈으로 등록한다.
 public class AopTest {
 	@Autowired
 	OrderService orderService;
